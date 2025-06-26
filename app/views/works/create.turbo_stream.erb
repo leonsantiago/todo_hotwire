@@ -1,0 +1,2 @@
+<%= turbo_stream.prepend 'works_list', partial: 'work', locals:  { work: @work } %>
+<%= turbo_stream.replace 'work_form', partial: 'form', locals:  { work: Work.new } %>

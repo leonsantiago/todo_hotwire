@@ -2,15 +2,12 @@
 
 <% content_for :title, "Works" %>
 
-<h1>Works</h1>
+<h1>Work list</h1>
 
-<div id="works">
-  <% @works.each do |work| %>
-    <%= render work %>
-    <p>
-      <%= link_to "Show this work", work %>
-    </p>
-  <% end %>
-</div>
+<%= turbo_frame_tag 'work_form' do %>
+  <%= render 'form', work: Work.new %>
+<% end %>
 
-<%= link_to "New work", new_work_path %>
+<%= turbo_frame_tag 'works_list' do %>
+  <%= render @works %>
+<% end %>

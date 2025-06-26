@@ -1,12 +1,12 @@
-<div id="<%= dom_id work %>">
-  <p>
-    <strong>Title:</strong>
+<%= turbo_frame_tag dom_id(work) do %>
+  <p data-controller="work" data-work-target="title">
     <%= work.title %>
+    <% if work.completed %>
+      ✅
+    <% end %>
   </p>
+<% end %>
 
-  <p>
-    <strong>Completed:</strong>
-    <%= work.completed %>
-  </p>
-
-</div>
+<%= link_to 'Complete', work_path(work, work: { completed: true}), method: :patch, data: { turbo_confirm: 'Are you sure?', turbo_action: "replace" } %>
+<%= link_to 'Delete', work, method: :delete, data: { turbo_confirm: 'Are you sure?' } %>
+<%= button_to "Delete", work_path(work), method: :delete, form: { data: { turbo_confirm: "Are you sure?" } } %>

@@ -23,14 +23,13 @@ class WorksController < ApplicationController
   def create
     @work = Work.new(work_params)
 
-    respond_to do |format|
-      if @work.save
-        format.html { redirect_to @work, notice: "Work was successfully created." }
-        format.json { render :show, status: :created, location: @work }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @work.errors, status: :unprocessable_entity }
+    if @work.save
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_to works_path }
       end
+    else
+      render :new
     end
   end
 
@@ -38,11 +37,10 @@ class WorksController < ApplicationController
   def update
     respond_to do |format|
       if @work.update(work_params)
-        format.html { redirect_to @work, notice: "Work was successfully updated." }
-        format.json { render :show, status: :ok, location: @work }
+        format.turbo_stream
+        format.html { redirect_to works_path }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @work.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -52,8 +50,8 @@ class WorksController < ApplicationController
     @work.destroy!
 
     respond_to do |format|
-      format.html { redirect_to works_path, status: :see_other, notice: "Work was successfully destroyed." }
-      format.json { head :no_content }
+      format.turbo_stream
+      format.html { redirect_to works_path }
     end
   end
 
